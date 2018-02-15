@@ -1661,8 +1661,8 @@ if (favoritelocation_available is True and locinput.find("favoritelocation:") ==
     useGeocoder = True
     logger.debug("useGeocoder: %s" % useGeocoder)
 
-if (previouslocation_available is True and locinput.find("previouslocation:") == 0 or
-        previouslocation_available is True and locinput.find("prevloc:") == 0):
+if (previouslocation_enabled is True and locinput.find("previouslocation:") == 0 or
+        previouslocation_enabled is True and locinput.find("prevloc:") == 0):
     havePreviousLocation = False
     logger.debug("havePreviousLocation: %s" % havePreviousLocation)
 
