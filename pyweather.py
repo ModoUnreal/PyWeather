@@ -1420,78 +1420,90 @@ if previouslocation_enabled == "True":
     if previouslocation_1d.find("pws:") == 0:
         # The following code will delete pws: from the display string
         previouslocation_1d = previouslocation_1d[4:]
-        previouslocation_1d = "PWS" + previouslocation_1d.upper()
+        previouslocation_1d = "PWS " + previouslocation_1d.upper()
         logger.debug("previouslocation_1d: %s" % previouslocation_1d)
     
     
     if previouslocation_2d.find("pws:") == 0:
         # The following code will delete pws: from the display string
         previouslocation_2d = previouslocation_2d[4:]
-        previouslocation_2d = "PWS" + previouslocation_2d.upper()
+        previouslocation_2d = "PWS " + previouslocation_2d.upper()
         logger.debug("previouslocation_2d: %s" % previouslocation_2d)
     
     if previouslocation_3d.find("pws:") == 0:
         # The following code will delete pws: from the display string
         previouslocation_3d = previouslocation_3d[4:]
-        previouslocation_3d = "PWS" + previouslocation_3d.upper()
+        previouslocation_3d = "PWS " + previouslocation_3d.upper()
         logger.debug("previouslocation_3d: %s" % previouslocation_3d)
     
     if previouslocation_4d.find("pws:") == 0:
         # The following code will delete pws: from the display string
         previouslocation_4d = previouslocation_4d[4:]
-        previouslocation_4d = "PWS" + previouslocation_4d.upper()
+        previouslocation_4d = "PWS " + previouslocation_4d.upper()
         logger.debug("previouslocation_4d: %s" % previouslocation_4d)
     
     if previouslocation_5d.find("pws:") == 0:
         # The following code will delete pws: from the display string
         previouslocation_5d = previouslocation_5d[4:]
-        previouslocation_5d = "PWS" + previouslocation_5d.upper()
+        previouslocation_5d = "PWS " + previouslocation_5d.upper()
         logger.debug("previouslocation_5d: %s" % previouslocation_5d)
     
     # Adds airport location to display variable and strips out the "airport bit"
     
-    if previouslocation_1d.find("arpt:") == 0 or previouslocation_1d.find("airport") == 0:
+    if previouslocation_1d.find("arpt:") == 0 or previouslocation_1d.find("airport:") == 0:
+        # Set the display variable to extra data, only if the extra data isn't None.
+        # If the extra data variable is None, show the airport code & "Airport"
         if previouslocation_1data != "None":
             previouslocation_1d = previouslocation_1data
-
         else:
-            previouslocation_1d = previouslocation_1.strip("airport:") + " Airport"
-
-        logger.debug("previouslocation_1d: %s" % previouslocation_1d)
+            previouslocation_1d = previouslocation_1d.strip("airport:") + " Airport"
     
-    if previouslocation_2d.find("arpt:") == 0 or previouslocation_2d.find("airport") == 0:
+        logger.debug("previouslocation_1d: %s" % previouslocation_1d)
+
+    if previouslocation_2d.find("arpt:") == 0 or previouslocation_2d.find("airport:") == 0:
+        # Set the display variable to extra data, only if the extra data isn't None.
+        # If the extra data variable is None, show the airport code & "Airport"
         if previouslocation_2data != "None":
             previouslocation_2d = previouslocation_2data
-
         else:
-            previouslocation_2d = previouslocation_2.strip("airport:") + " Airport"
-
+            previouslocation_2d = previouslocation_2d.strip("airport:") + " Airport"
+    
         logger.debug("previouslocation_2d: %s" % previouslocation_2d)
 
-    if previouslocation_3d.find("arpt:") == 0 or previouslocation_3d.find("airport") == 0:
+
+    if previouslocation_3d.find("arpt:") == 0 or previouslocation_3d.find("airport:") == 0:
+        # Set the display variable to extra data, only if the extra data isn't None.
+        # If the extra data variable is None, show the airport code & "Airport"
         if previouslocation_3data != "None":
             previouslocation_3d = previouslocation_3data
-
         else:
-            previouslocation_3d = previouslocation_3.strip("airport:") + " Airport"
-
+            previouslocation_3d = previouslocation_3d.strip("airport:") + " Airport"
+    
         logger.debug("previouslocation_3d: %s" % previouslocation_3d)
-    if previouslocation_4d.find("arpt:") == 0 or previouslocation_4d.find("airport") == 0:
+
+
+    if previouslocation_4d.find("arpt:") == 0 or previouslocation_4d.find("airport:") == 0:
+        # Set the display variable to extra data, only if the extra data isn't None.
+        # If the extra data variable is None, show the airport code & "Airport"
         if previouslocation_4data != "None":
             previouslocation_4d = previouslocation_4data
-
         else:
-            previouslocation_4d = previouslocation_4.strip("airport:") + " Airport"
+            previouslocation_4d = previouslocation_4d.strip("airport:") + " Airport"
+    
+        logger.debug("previouslocation_4d: %s" % previouslocation_4d)
 
-    if previouslocation_5d.find("arpt:") == 0 or previouslocation_5d.find("airport") == 0:
+
+    if previouslocation_5d.find("arpt:") == 0 or previouslocation_5d.find("airport:") == 0:
+        # Set the display variable to extra data, only if the extra data isn't None.
+        # If the extra data variable is None, show the airport code & "Airport"
         if previouslocation_5data != "None":
             previouslocation_5d = previouslocation_5data
-
         else:
-            previouslocation_5d = previouslocation_5.strip("airport:") + " Airport"
-
-        logger.debug("previouslocation_5d: %s" % previouslocation_1d)
+            previouslocation_5d = previouslocation_5d.strip("airport:") + " Airport"
     
+        logger.debug("previouslocation_5d: %s" % previouslocation_5d)
+
+
     config['PREVIOUS LOCATIONS']['prevloc1'] = previouslocation_1d
     config['PREVIOUS LOCATIONS']['prevloc2'] = previouslocation_2d
     config['PREVIOUS LOCATIONS']['prevloc3'] = previouslocation_3d
@@ -1636,6 +1648,9 @@ if (favoritelocation_available is True and locinput.find("favoritelocation:") ==
 
     useGeocoder = True
     logger.debug("useGeocoder: %s" % useGeocoder)
+
+
+
 
 if pws_enabled is False and locinput.find("pws:") == 0:
     spinner.fail(text="PyWeather query failed!")
@@ -2832,8 +2847,8 @@ while True:
     print(Fore.YELLOW + Style.BRIGHT + "- Launch PyWeather's experimental radar - Enter " + Fore.CYAN + Style.BRIGHT + "11")
     print(Fore.YELLOW + Style.BRIGHT + "- Flag all data types to be refreshed - Enter " + Fore.CYAN + Style.BRIGHT + "12")
     print(Fore.YELLOW + Style.BRIGHT + "- Manage your favorite locations - Enter " + Fore.CYAN + Style.BRIGHT + "13")
-    print(Fore.YELLOW + Style.BRIGHT + "- Manage your previous locations - Enter " + Fore.CYAN + Style.BRIGHT + "14")
-    print(Fore.YELLOW + Style.BRIGHT + "- Check for PyWeather updates - Enter " + Fore.CYAN + Style.BRIGHT + "15")
+    print(Fore.YELLOW + Style.BRIGHT + "- Check for Pyweather updates - Enter " + Fore.CYAN + Style.BRIGHT + "14")
+    print(Fore.YELLOW + Style.BRIGHT + "- Manage your previous locations - Enter " + Fore.CYAN + Style.BRIGHT + "15")
     print(Fore.YELLOW + Style.BRIGHT + "- View the about page for PyWeather - Enter " + Fore.CYAN + Style.BRIGHT + "16")
     print(Fore.YELLOW + Style.BRIGHT + "- Close PyWeather - Enter " + Fore.CYAN + Style.BRIGHT + "17")
     if extratools_enabled is True:
@@ -4893,8 +4908,8 @@ while True:
 
                 # Do the actual updating here, making sure we don't have an indentation nightmare.
 
-#<--- Exit PyWeather is above | Updater is below ---> This probably is wrong now.... Whoops (modounreal broke shit)
-    elif moreoptions == "15":  # Changed
+#<--- Exit PyWeather is above | Updater is below --->
+    elif moreoptions == "16":  # Changed
         logger.info("Selected update.")
         logger.debug("buildnumber: %s ; buildversion: %s" %
                     (buildnumber, buildversion))
@@ -7878,7 +7893,7 @@ while True:
                 continue
 
 
-    elif moreoptions == "14":
+    elif moreoptions == "15":
         if previouslocation_enabled is False:
             print("", Fore.RED + Style.BRIGHT + "To manage previous locations, you'll need to enable the previous locations feature.",
                   Fore.RED + Style.BRIGHT + "Would you like me to enable previous locations for you?", sep="\n")
