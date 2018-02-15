@@ -1451,28 +1451,46 @@ if previouslocation_enabled == "True":
     # Adds airport location to display variable and strips out the "airport bit"
     
     if previouslocation_1d.find("arpt:") == 0 or previouslocation_1d.find("airport") == 0:
-        previouslocation_1d = previouslocation_1d.strip("airport:") + "Airport"
+        if previouslocation_1data != "None":
+            previouslocation_1d = previouslocation_1data
+
+        else:
+            previouslocation_1d = previouslocation_1.strip("airport:") + " Airport"
+
         logger.debug("previouslocation_1d: %s" % previouslocation_1d)
     
-    
     if previouslocation_2d.find("arpt:") == 0 or previouslocation_2d.find("airport") == 0:
-        previouslocation_2d = previouslocation_2d.strip("airport:") + "Airport"
+        if previouslocation_2data != "None":
+            previouslocation_2d = previouslocation_2data
+
+        else:
+            previouslocation_2d = previouslocation_2.strip("airport:") + " Airport"
+
         logger.debug("previouslocation_2d: %s" % previouslocation_2d)
-    
-    
+
     if previouslocation_3d.find("arpt:") == 0 or previouslocation_3d.find("airport") == 0:
-        previouslocation_3d = previouslocation_3d.strip("airport:") + "Airport"
+        if previouslocation_3data != "None":
+            previouslocation_3d = previouslocation_3data
+
+        else:
+            previouslocation_3d = previouslocation_3.strip("airport:") + " Airport"
+
         logger.debug("previouslocation_3d: %s" % previouslocation_3d)
-    
-    
     if previouslocation_4d.find("arpt:") == 0 or previouslocation_4d.find("airport") == 0:
-        previouslocation_4d = previouslocation_4d.strip("airport:") + "Airport"
-        logger.debug("previouslocation_4d: %s" % previouslocation_4d)
-    
-    
+        if previouslocation_4data != "None":
+            previouslocation_4d = previouslocation_4data
+
+        else:
+            previouslocation_4d = previouslocation_4.strip("airport:") + " Airport"
+
     if previouslocation_5d.find("arpt:") == 0 or previouslocation_5d.find("airport") == 0:
-        previouslocation_5d = previouslocation_5d.strip("airport:") + "Airport"
-        logger.debug("previouslocation_5d: %s" % previouslocation_5d)
+        if previouslocation_5data != "None":
+            previouslocation_5d = previouslocation_5data
+
+        else:
+            previouslocation_5d = previouslocation_5.strip("airport:") + " Airport"
+
+        logger.debug("previouslocation_5d: %s" % previouslocation_1d)
     
     config['PREVIOUS LOCATIONS']['prevloc1'] = previouslocation_1d
     config['PREVIOUS LOCATIONS']['prevloc2'] = previouslocation_2d
@@ -1483,7 +1501,6 @@ if previouslocation_enabled == "True":
     try:
         with open('storage//config.ini', 'w') as configfile:
             config.write(configfile)
-        print(Fore.YELLOW + Style.BRIGHT + "Changes saved!")
 
     except:
         print(Fore.RED + Style.BRIGHT + "An issue occured when trying to write previous history to your config file.",
@@ -7259,7 +7276,6 @@ while True:
                     logger.debug("FAVORITE LOCATIONS/favloc1_data is now: %s" % location)
 
 
-
                 try:
                     with open('storage//config.ini', 'w') as configfile:
                         config.write(configfile)
@@ -7862,8 +7878,6 @@ while True:
                 continue
 
 
-# ModoUnreal working on previous location stuff here....
-
     elif moreoptions == "14":
         if previouslocation_enabled is False:
             print("", Fore.RED + Style.BRIGHT + "To manage previous locations, you'll need to enable the previous locations feature.",
@@ -7989,7 +8003,7 @@ while True:
             logger.debug("prevconfig_menuinput: %s" % prevconfig_menuinput)
             if prevconfig_menuinput == "1":
                 print(Fore.YELLOW + Style.BRIGHT + "Which previous location would you like to remove? Enter a number 1-5 representing",
-                      Fore.YELLOW + Style.BRIGHT + "the previous locations 1-5.", sep="\n") # I really need to replace fix my vim editor, it's fucking lost it...
+                      Fore.YELLOW + Style.BRIGHT + "the previous locations 1-5.", sep="\n") 
                 prevloc_removeinputnum = input("Input here: ").lower()
                 logger.debug("prevloc_removeinputnum: %s" % prevloc_removeinputnum)
             
@@ -8082,7 +8096,6 @@ while True:
                 try:
                     with open('storage//config.ini', 'w') as configfile:
                         config.write(configfile)
-                    print(Fore.YELLOW + Style.BRIGHT + "Changes saved!")
                     continue
                 except:
                     print(Fore.RED + Style.BRIGHT + "An issue occurred when trying to write new options to your config file.",
@@ -8093,8 +8106,6 @@ while True:
             else:
                 print(Fore.YELLOW + Style.BRIGHT + "Your input could not be understood.")
                 continue
-
-# ModoUnreal work on stuff here...
 
 #<--- Hurricane is above | About is below --->
     elif moreoptions == "16": # Changed
