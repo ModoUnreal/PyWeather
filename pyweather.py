@@ -1569,6 +1569,18 @@ elif (favoritelocation_available is False and locinput.find("favoritelocation:")
     input()
     sys.exit()
 
+# Does the same for previouslocations
+if (previouslocation_enabled is False and locinput.find("previouslocation:") == 0 or
+    previouslocation_enabled is False and locinput.find("prevloc:") == 0):
+    spinner.fail(text="PyWeather query failed!")
+    print("")
+    print("Whoops! You entered the query to access a previous location, but the previous locations",
+          "feature isn't on. If you'd like to enable previous locations, you can do so by booting up",
+          "Pyweather, and selecting the previous locations option. Alternatively, you can go into",
+          "your config file and set PREVIOUS LOCATIONS/enabled to True. Press enter to exit", sep="\n")
+    input()
+    sys.exit()
+
 if (favoritelocation_available is True and locinput.find("favoritelocation:") == 0 or
         favoritelocation_available is True and locinput.find("favloc:") == 0):
     haveFavoriteLocation = False
@@ -1649,8 +1661,93 @@ if (favoritelocation_available is True and locinput.find("favoritelocation:") ==
     useGeocoder = True
     logger.debug("useGeocoder: %s" % useGeocoder)
 
+if (previouslocation_available is True and locinput.find("previouslocation:") == 0 or
+        previouslocation_available is True and locinput.find("prevloc:") == 0):
+    havePreviousLocation = False
+    logger.debug("havePreviousLocation: %s" % havePreviousLocation)
+
+    if locinput == "previouslocation:1" or locinput == "prevloc:1" and previouslocation_1 != "None":
+        locinput = previouslocation_1
+        havePreviousLocation = True
+        logger.debug("locinput: %s ; havePreviousLocation %s" %
+                     (locinput, havePreviousLocation))
+
+    elif locinput == "previouslocation:1" or locinput == "prevloc:1" and previouslocation_1 == "None":
+        spinner.fail(text="Pyweather query failed!")
+        print("")
+        print("Whoops! You entered the query to access your first previous location, but",
+              "it's currently not set to anything. Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
+
+    if locinput == "previouslocation:2" or locinput == "prevloc:2" and previouslocation_2 != "None":
+        locinput = previouslocation_2
+        havePreviousLocation = True
+        logger.debug("locinput: %s ; havePreviousLocation %s" %
+                     (locinput, havePreviousLocation))
+
+    elif locinput == "previouslocation:2" or locinput == "prevloc:2" and previouslocation_2 == "None":
+        spinner.fail(text="Pyweather query failed!")
+        print("")
+        print("Whoops! You entered the query to access your second previous location, but",
+              "it's currently not set to anything. Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
 
 
+    if locinput == "previouslocation:3" or locinput == "prevloc:3" and previouslocation_3 != "None":
+        locinput = previouslocation_3
+        havePreviousLocation = True
+        logger.debug("locinput: %s ; havePreviousLocation %s" %
+                     (locinput, havePreviousLocation))
+
+    elif locinput == "previouslocation:3" or locinput == "prevloc:3" and previouslocation_3 == "None":
+        spinner.fail(text="Pyweather query failed!")
+        print("")
+        print("Whoops! You entered the query to access your third previous location, but",
+              "it's currently not set to anything. Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
+
+
+    if locinput == "previouslocation:4" or locinput == "prevloc:4" and previouslocation_4 != "None":
+        locinput = previouslocation_4
+        havePreviousLocation = True
+        logger.debug("locinput: %s ; havePreviousLocation %s" %
+                     (locinput, havePreviousLocation))
+
+    elif locinput == "previouslocation:4" or locinput == "prevloc:4" and previouslocation_4 == "None":
+        spinner.fail(text="Pyweather query failed!")
+        print("")
+        print("Whoops! You entered the query to access your fourth previous location, but",
+              "it's currently not set to anything. Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
+
+
+    if locinput == "previouslocation:5" or locinput == "prevloc:5" and previouslocation_5 != "None":
+        locinput = previouslocation_5
+        havePreviousLocation = True
+        logger.debug("locinput: %s ; havePreviousLocation %s" %
+                     (locinput, havePreviousLocation))
+
+    elif locinput == "previouslocation:5" or locinput == "prevloc:5" and previouslocation_5 == "None":
+        spinner.fail(text="Pyweather query failed!")
+        print("")
+        print("Whoops! You entered the query to access your fifth previous location, but",
+              "it's currently not set to anything. Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
+
+    if havePreviousLocation is False:
+        spinner.fail(text="Pyweather query failed!")
+        print("Your input didn't match up to a previous location (you likely entered an invalid character/number past the colon).",
+              "Press enter to exit.", sep="\n")
+        input()
+        sys.exit()
+
+    useGeocoder = True
+    logger.debug("useGeocoder: %s" % useGeocoder)
 
 if pws_enabled is False and locinput.find("pws:") == 0:
     spinner.fail(text="PyWeather query failed!")
