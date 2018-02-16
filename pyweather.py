@@ -5005,190 +5005,193 @@ while True:
 
                 # Do the actual updating here, making sure we don't have an indentation nightmare.
 
-#<--- Exit PyWeather is above | Updater is below --->
-    elif moreoptions == "16":  # Changed
-        logger.info("Selected update.")
-        logger.debug("buildnumber: %s ; buildversion: %s" %
-                    (buildnumber, buildversion))
+# I don't know whether all this got deleted, however I can easily take it all out if you want me to....
 
-        spinner.start(text="Checking for updates...")
-        try:
-            versioncheck = requests.get("https://raw.githubusercontent.com/o355/pyweather/master/updater/versioncheck.json")
-            releasenotes = requests.get("https://raw.githubusercontent.com/o355/pyweather/master/updater/releasenotes.txt")
-            logger.debug("versioncheck: %s" % versioncheck)
-        except:
-            spinner.fail(text="Failed to check for updates!")
-            print("")
-            logger.warning("Couldn't check for updates! Is there an internet connection?")
-            print(Fore.YELLOW + Style.BRIGHT + "When attempting to fetch the update data file, PyWeather",
-                  Fore.YELLOW + Style.BRIGHT + "ran into an error. If you're on a network with a filter,",
-                  Fore.YELLOW + Style.BRIGHT + "make sure that 'raw.githubusercontent.com' is unblocked. Otherwise,",
-                  Fore.YELLOW + Style.BRIGHT + "make sure that you have an internet connecction.", sep="\n")
-            printException()
-            continue
-        versionJSON = json.loads(versioncheck.text)
-        if jsonVerbosity == True:
-            logger.debug("versionJSON: %s" % versionJSON)
-        else:
-            logger.debug("versionJSON loaded.")
-        version_buildNumber = float(versionJSON['updater']['latestbuild'])
-        version_latestVersion = versionJSON['updater']['latestversion']
-        version_latestURL = versionJSON['updater']['latesturl']
-        version_latestFileName = versionJSON['updater']['latestfilename']
-        version_latestReleaseTag = versionJSON['updater']['latestversiontag']
-        version_newversionreleasedate = versionJSON['updater']['nextversionreleasedate']
-        version_latestReleaseDate = versionJSON['updater']['releasedate']
-        logger.debug("version_buildNumber: %s ; version_latestVersion: %s" %
-                     (version_buildNumber, version_latestVersion))
-        logger.debug("version_latestURL: %s ; version_latestFileName: %s" %
-                     (version_latestURL, version_latestFileName))
-        logger.debug("version_latestReleaseTag: %s" %
-                     (version_latestReleaseTag))
-        logger.debug("version_newversionreleasedate: %s ; version_latestReleaseDate: %s" %
-                     (version_newversionreleasedate, version_latestReleaseDate))
-        spinner.stop()
-        if buildnumber >= version_buildNumber:
-            logger.info("PyWeather is up to date.")
-            logger.info("local build (%s) >= latest build (%s)"
-                        % (buildnumber, version_buildNumber))
-            print("")
-            print(Fore.GREEN + Style.BRIGHT + "Your PyWeather is up to date! :)")
-            print(Fore.GREEN + Style.BRIGHT + "You have version: " + Fore.CYAN + Style.BRIGHT + buildversion)
-            print(Fore.GREEN + Style.BRIGHT +"The latest version is: " + Fore.CYAN + Style.BRIGHT
-                  + version_latestVersion)
-            if user_showUpdaterReleaseTag == True:
-                print(Fore.GREEN + Style.BRIGHT + "The latest release tag is: " + Fore.CYAN + Style.BRIGHT
-                      + version_latestReleaseTag)
-            if showNewVersionReleaseDate == True:
-                print(Fore.GREEN + Style.BRIGHT + "Psst, a new version of PyWeather should get released on: "
-                      + Fore.CYAN + Style.BRIGHT + version_newversionreleasedate)
-            if showUpdaterReleaseNotes_uptodate == True:
-                print(Fore.GREEN + Style.BRIGHT + "Here's the release notes for this release:",
-                      Fore.CYAN + Style.BRIGHT + releasenotes.text, sep="\n")
-        elif buildnumber < version_buildNumber:
-            print("")
-            logger.warn("PyWeather is NOT up to date.")
-            logger.warn("local build (%s) < latest build (%s)"
-                        % (buildnumber, version_buildNumber))
-            print(Fore.RED + Style.BRIGHT + "Your PyWeather is not up to date! :(")
-            print(Fore.RED + Style.BRIGHT + "You have version: " + Fore.CYAN + Style.BRIGHT + buildversion)
-            print(Fore.RED + Style.BRIGHT + "The latest version is: " + Fore.CYAN + Style.BRIGHT + version_latestVersion)
-            print(Fore.RED + Style.BRIGHT + "And it was released on: " + Fore.CYAN + Style.BRIGHT + version_latestReleaseDate)
-            if user_showUpdaterReleaseTag == True:
-                print(Fore.RED + Style.BRIGHT + "The latest release tag is: " + Fore.CYAN + Style.BRIGHT + version_latestReleaseTag)
-            if showUpdaterReleaseNotes == True:
-                print(Fore.RED + Style.BRIGHT + "Here's the release notes for the latest release:",
-                      Fore.CYAN + Style.BRIGHT + releasenotes.text, sep="\n")
-            print("")
-            print(Fore.RED + Style.BRIGHT + "Would you like to download the latest version?")
-            downloadLatest = input("Yes or No: ").lower()
-            logger.debug("downloadLatest: %s" % downloadLatest)
-            if downloadLatest == "yes":
-                # Remove the Git updater - It is no longer needed.
-                #if allowGitForUpdating == True:
-                #    print(Fore.YELLOW + Style.BRIGHT + "Would you like to use Git to update PyWeather?",
-                #          Fore.YELLOW + Style.BRIGHT + "Yes or No.")
-                #    confirmUpdateWithGit = input("Input here: ").lower()
-                #    if confirmUpdateWithGit == "yes":
-                #        print(Fore.YELLOW + Style.BRIGHT + "Now updating with Git.")
-                #        try:
-                #            subprocess.call(["git fetch"], shell=True)
-                #            subprocess.call(["git stash"], shell=True)
-                #            subprocess.call(["git checkout %s" % version_latestReleaseTag],
-                #                            shell=True)
-                #            print(Fore.YELLOW + Style.BRIGHT + "Now updating your config file.")
-                #            exec(open("configupdate.py").read())
-                #            print(Fore.YELLOW + Style.BRIGHT + "PyWeather has been successfully updated. To finish updating,",
-                #                  Fore.YELLOW + Style.BRIGHT + "please press enter to exit PyWeather.", sep="\n")
-                #            input()
-                #            sys.exit()
-                #        except:
-                #            print("When attempting to update using git, either",
-                #                  "when doing `git fetch`, `git checkout`, or to",
-                #                  "execute the configupdate script, an error occurred."
-                #                  "We can try updating using the .zip method.",
-                #                  "Would you like to update PyWeather using the .zip method?",
-                #                  "Yes or No.", sep="\n")
-                #            printException()
-                #            confirmZipDownload = input("Input here: ").lower()
-                #            if confirmZipDownload == "yes":
-                #                print("Downloading using the .zip method.")
-                #            elif confirmZipDownload == "no":
-                #               print("Not downloading latest updates using the",
-                #                     ".zip method.", sep="\n")
-                #                continue
-                #            else:
-                #                print("Couldn't understand your input. Defaulting",
-                #                      "to downloading using a .zip.", sep="\n")
-                #    # The unnecessary amounts of confirms was to boost the line count to 2,000.
-                #    elif confirmUpdateWithGit == "no":
-                #        print("Not updating with Git. Would you like to update",
-                #              "PyWeather using the .zip download option?",
-                #              "Yes or No.", sep="\n")
-                #        confirmZipDownload = input("Input here: ").lower()
-                #        if confirmZipDownload == "yes":
-                #            print("Downloading the latest update with a .zip.")
-                #        elif confirmZipDownload == "no":
-                #            print("Not downloading the latest PyWeather updates.")
-                #            continue
-                #        else:
-                #            print("Couldn't understand your input. Defaulting to",
-                #                  "downloading the latest version with a .zip.", sep="\n")
-                #    else:
-                #        print("Couldn't understand your input. Defaulting to",
-                #              "downloading the latest version with a .zip.", sep="\n")
-                print("")
-                logger.debug("Downloading latest version...")
-                # This will eventually get replaced with a real progress bar with size indicating and all that cool stuff.
-                spinner.start(text="Downloading the latest version of PyWeather...")
-                try:
-                    updatezip = requests.get(version_latestURL)
-                    with open(version_latestFileName, 'wb') as fw:
-                        for chunk in updatezip.iter_content(chunk_size=128):
-                            fw.write(chunk)
-                        fw.close()
-                except:
-                    spinner.fail("Failed to download the latest version of PyWeather!")
-                    print("")
-                    logger.warning("Couldn't download the latest version!")
-                    logger.warning("Is the internet online?")
-                    print(Fore.RED + Style.BRIGHT + "When attempting to download the latest .zip file",
-                          Fore.RED + Style.BRIGHT + "for PyWeather, an error occurred. If you're on a",
-                          Fore.RED + Style.BRIGHT + "network with a filter, make sure that",
-                          Fore.RED + Style.BRIGHT + "'raw.githubusercontent.com' is unblocked.",
-                          Fore.RED + Style.BRIGHT + "Otherwise, make sure you have an internet connection.",
-                          sep="\n")
-                    logger.error("Here's the full traceback (for bug reports):")
-                    printException()
-                    continue
-                logger.debug("Latest version was saved, filename: %s"
-                            % version_latestFileName)
-                spinner.stop()
-                print(Fore.YELLOW + Style.BRIGHT + "The latest version of PyWeather was downloaded " +
-                      "to the base directory of PyWeather, and saved as " +
-                      Fore.CYAN + Style.BRIGHT + version_latestFileName + Fore.YELLOW + ".")
-                continue
-            elif downloadLatest == "no":
-                logger.debug("Not downloading the latest version.")
-                print(Fore.YELLOW + Style.BRIGHT + "Not downloading the latest version of PyWeather.")
-                print(Fore.YELLOW + Style.BRIGHT + "For reference, you can download the latest version of PyWeather at:")
-                print(Fore.CYAN + Style.BRIGHT + version_latestURL)
-                continue
-            else:
-                logger.warn("Input could not be understood!")
-                print(Fore.RED + Style.BRIGHT + "Your input couldn't be understood.")
-                continue
-        else:
-            spinner.fail("Failed to check for updates!")
-            print("")
-            logger.warning("PW updater failed. Variables corrupt, maybe?")
-            print(Fore.YELLOW + Style.BRIGHT + "When attempting to compare version variables, PyWeather ran",
-                  Fore.YELLOW + Style.BRIGHT + "into an error. This error is extremely rare. Make sure you're",
-                  Fore.YELLOW + Style.BRIGHT + "not trying to travel through a wormhole with Cooper, and report",
-                  Fore.YELLOW + Style.BRIGHT + "the error on GitHub, while it's around. Make sure to turn on verbosity and report",
-                  Fore.YELLOW + Style.BRIGHT + "variable data after selecting the updater option.", sep='\n')
-            input()
-            continue
+
+#<--- Exit PyWeather is above | Updater is below --->
+#     elif moreoptions == "16":  # Changed
+#         logger.info("Selected update.")
+#         logger.debug("buildnumber: %s ; buildversion: %s" %
+#                     (buildnumber, buildversion))
+# 
+#         spinner.start(text="Checking for updates...")
+#         try:
+#             versioncheck = requests.get("https://raw.githubusercontent.com/o355/pyweather/master/updater/versioncheck.json")
+#             releasenotes = requests.get("https://raw.githubusercontent.com/o355/pyweather/master/updater/releasenotes.txt")
+#             logger.debug("versioncheck: %s" % versioncheck)
+#         except:
+#             spinner.fail(text="Failed to check for updates!")
+#             print("")
+#             logger.warning("Couldn't check for updates! Is there an internet connection?")
+#             print(Fore.YELLOW + Style.BRIGHT + "When attempting to fetch the update data file, PyWeather",
+#                   Fore.YELLOW + Style.BRIGHT + "ran into an error. If you're on a network with a filter,",
+#                   Fore.YELLOW + Style.BRIGHT + "make sure that 'raw.githubusercontent.com' is unblocked. Otherwise,",
+#                   Fore.YELLOW + Style.BRIGHT + "make sure that you have an internet connecction.", sep="\n")
+#             printException()
+#             continue
+#         versionJSON = json.loads(versioncheck.text)
+#         if jsonVerbosity == True:
+#             logger.debug("versionJSON: %s" % versionJSON)
+#         else:
+#             logger.debug("versionJSON loaded.")
+#         version_buildNumber = float(versionJSON['updater']['latestbuild'])
+#         version_latestVersion = versionJSON['updater']['latestversion']
+#         version_latestURL = versionJSON['updater']['latesturl']
+#         version_latestFileName = versionJSON['updater']['latestfilename']
+#         version_latestReleaseTag = versionJSON['updater']['latestversiontag']
+#         version_newversionreleasedate = versionJSON['updater']['nextversionreleasedate']
+#         version_latestReleaseDate = versionJSON['updater']['releasedate']
+#         logger.debug("version_buildNumber: %s ; version_latestVersion: %s" %
+#                      (version_buildNumber, version_latestVersion))
+#         logger.debug("version_latestURL: %s ; version_latestFileName: %s" %
+#                      (version_latestURL, version_latestFileName))
+#         logger.debug("version_latestReleaseTag: %s" %
+#                      (version_latestReleaseTag))
+#         logger.debug("version_newversionreleasedate: %s ; version_latestReleaseDate: %s" %
+#                      (version_newversionreleasedate, version_latestReleaseDate))
+#         spinner.stop()
+#         if buildnumber >= version_buildNumber:
+#             logger.info("PyWeather is up to date.")
+#             logger.info("local build (%s) >= latest build (%s)"
+#                         % (buildnumber, version_buildNumber))
+#             print("")
+#             print(Fore.GREEN + Style.BRIGHT + "Your PyWeather is up to date! :)")
+#             print(Fore.GREEN + Style.BRIGHT + "You have version: " + Fore.CYAN + Style.BRIGHT + buildversion)
+#             print(Fore.GREEN + Style.BRIGHT +"The latest version is: " + Fore.CYAN + Style.BRIGHT
+#                   + version_latestVersion)
+#             if user_showUpdaterReleaseTag == True:
+#                 print(Fore.GREEN + Style.BRIGHT + "The latest release tag is: " + Fore.CYAN + Style.BRIGHT
+#                       + version_latestReleaseTag)
+#             if showNewVersionReleaseDate == True:
+#                 print(Fore.GREEN + Style.BRIGHT + "Psst, a new version of PyWeather should get released on: "
+#                       + Fore.CYAN + Style.BRIGHT + version_newversionreleasedate)
+#             if showUpdaterReleaseNotes_uptodate == True:
+#                 print(Fore.GREEN + Style.BRIGHT + "Here's the release notes for this release:",
+#                       Fore.CYAN + Style.BRIGHT + releasenotes.text, sep="\n")
+#         elif buildnumber < version_buildNumber:
+#             print("")
+#             logger.warn("PyWeather is NOT up to date.")
+#             logger.warn("local build (%s) < latest build (%s)"
+#                         % (buildnumber, version_buildNumber))
+#             print(Fore.RED + Style.BRIGHT + "Your PyWeather is not up to date! :(")
+#             print(Fore.RED + Style.BRIGHT + "You have version: " + Fore.CYAN + Style.BRIGHT + buildversion)
+#             print(Fore.RED + Style.BRIGHT + "The latest version is: " + Fore.CYAN + Style.BRIGHT + version_latestVersion)
+#             print(Fore.RED + Style.BRIGHT + "And it was released on: " + Fore.CYAN + Style.BRIGHT + version_latestReleaseDate)
+#             if user_showUpdaterReleaseTag == True:
+#                 print(Fore.RED + Style.BRIGHT + "The latest release tag is: " + Fore.CYAN + Style.BRIGHT + version_latestReleaseTag)
+#             if showUpdaterReleaseNotes == True:
+#                 print(Fore.RED + Style.BRIGHT + "Here's the release notes for the latest release:",
+#                       Fore.CYAN + Style.BRIGHT + releasenotes.text, sep="\n")
+#             print("")
+#             print(Fore.RED + Style.BRIGHT + "Would you like to download the latest version?")
+#             downloadLatest = input("Yes or No: ").lower()
+#             logger.debug("downloadLatest: %s" % downloadLatest)
+#             if downloadLatest == "yes":
+#                 # Remove the Git updater - It is no longer needed.
+#                 #if allowGitForUpdating == True:
+#                 #    print(Fore.YELLOW + Style.BRIGHT + "Would you like to use Git to update PyWeather?",
+#                 #          Fore.YELLOW + Style.BRIGHT + "Yes or No.")
+#                 #    confirmUpdateWithGit = input("Input here: ").lower()
+#                 #    if confirmUpdateWithGit == "yes":
+#                 #        print(Fore.YELLOW + Style.BRIGHT + "Now updating with Git.")
+#                 #        try:
+#                 #            subprocess.call(["git fetch"], shell=True)
+#                 #            subprocess.call(["git stash"], shell=True)
+#                 #            subprocess.call(["git checkout %s" % version_latestReleaseTag],
+#                 #                            shell=True)
+#                 #            print(Fore.YELLOW + Style.BRIGHT + "Now updating your config file.")
+#                 #            exec(open("configupdate.py").read())
+#                 #            print(Fore.YELLOW + Style.BRIGHT + "PyWeather has been successfully updated. To finish updating,",
+#                 #                  Fore.YELLOW + Style.BRIGHT + "please press enter to exit PyWeather.", sep="\n")
+#                 #            input()
+#                 #            sys.exit()
+#                 #        except:
+#                 #            print("When attempting to update using git, either",
+#                 #                  "when doing `git fetch`, `git checkout`, or to",
+#                 #                  "execute the configupdate script, an error occurred."
+#                 #                  "We can try updating using the .zip method.",
+#                 #                  "Would you like to update PyWeather using the .zip method?",
+#                 #                  "Yes or No.", sep="\n")
+#                 #            printException()
+#                 #            confirmZipDownload = input("Input here: ").lower()
+#                 #            if confirmZipDownload == "yes":
+#                 #                print("Downloading using the .zip method.")
+#                 #            elif confirmZipDownload == "no":
+#                 #               print("Not downloading latest updates using the",
+#                 #                     ".zip method.", sep="\n")
+#                 #                continue
+#                 #            else:
+#                 #                print("Couldn't understand your input. Defaulting",
+#                 #                      "to downloading using a .zip.", sep="\n")
+#                 #    # The unnecessary amounts of confirms was to boost the line count to 2,000.
+#                 #    elif confirmUpdateWithGit == "no":
+#                 #        print("Not updating with Git. Would you like to update",
+#                 #              "PyWeather using the .zip download option?",
+#                 #              "Yes or No.", sep="\n")
+#                 #        confirmZipDownload = input("Input here: ").lower()
+#                 #        if confirmZipDownload == "yes":
+#                 #            print("Downloading the latest update with a .zip.")
+#                 #        elif confirmZipDownload == "no":
+#                 #            print("Not downloading the latest PyWeather updates.")
+#                 #            continue
+#                 #        else:
+#                 #            print("Couldn't understand your input. Defaulting to",
+#                 #                  "downloading the latest version with a .zip.", sep="\n")
+#                 #    else:
+#                 #        print("Couldn't understand your input. Defaulting to",
+#                 #              "downloading the latest version with a .zip.", sep="\n")
+#                 print("")
+#                 logger.debug("Downloading latest version...")
+#                 # This will eventually get replaced with a real progress bar with size indicating and all that cool stuff.
+#                 spinner.start(text="Downloading the latest version of PyWeather...")
+#                 try:
+#                     updatezip = requests.get(version_latestURL)
+#                     with open(version_latestFileName, 'wb') as fw:
+#                         for chunk in updatezip.iter_content(chunk_size=128):
+#                             fw.write(chunk)
+#                         fw.close()
+#                 except:
+#                     spinner.fail("Failed to download the latest version of PyWeather!")
+#                     print("")
+#                     logger.warning("Couldn't download the latest version!")
+#                     logger.warning("Is the internet online?")
+#                     print(Fore.RED + Style.BRIGHT + "When attempting to download the latest .zip file",
+#                           Fore.RED + Style.BRIGHT + "for PyWeather, an error occurred. If you're on a",
+#                           Fore.RED + Style.BRIGHT + "network with a filter, make sure that",
+#                           Fore.RED + Style.BRIGHT + "'raw.githubusercontent.com' is unblocked.",
+#                           Fore.RED + Style.BRIGHT + "Otherwise, make sure you have an internet connection.",
+#                           sep="\n")
+#                     logger.error("Here's the full traceback (for bug reports):")
+#                     printException()
+#                     continue
+#                 logger.debug("Latest version was saved, filename: %s"
+#                             % version_latestFileName)
+#                 spinner.stop()
+#                 print(Fore.YELLOW + Style.BRIGHT + "The latest version of PyWeather was downloaded " +
+#                       "to the base directory of PyWeather, and saved as " +
+#                       Fore.CYAN + Style.BRIGHT + version_latestFileName + Fore.YELLOW + ".")
+#                 continue
+#             elif downloadLatest == "no":
+#                 logger.debug("Not downloading the latest version.")
+#                 print(Fore.YELLOW + Style.BRIGHT + "Not downloading the latest version of PyWeather.")
+#                 print(Fore.YELLOW + Style.BRIGHT + "For reference, you can download the latest version of PyWeather at:")
+#                 print(Fore.CYAN + Style.BRIGHT + version_latestURL)
+#                 continue
+#             else:
+#                 logger.warn("Input could not be understood!")
+#                 print(Fore.RED + Style.BRIGHT + "Your input couldn't be understood.")
+#                 continue
+#         else:
+#             spinner.fail("Failed to check for updates!")
+#             print("")
+#             logger.warning("PW updater failed. Variables corrupt, maybe?")
+#             print(Fore.YELLOW + Style.BRIGHT + "When attempting to compare version variables, PyWeather ran",
+#                   Fore.YELLOW + Style.BRIGHT + "into an error. This error is extremely rare. Make sure you're",
+#                   Fore.YELLOW + Style.BRIGHT + "not trying to travel through a wormhole with Cooper, and report",
+#                   Fore.YELLOW + Style.BRIGHT + "the error on GitHub, while it's around. Make sure to turn on verbosity and report",
+#                   Fore.YELLOW + Style.BRIGHT + "variable data after selecting the updater option.", sep='\n')
+#             input()
+#             continue
 # <--- Updater is above | Almanac is below --->
     elif moreoptions == "7":
         logger.info("Selected option: almanac")
